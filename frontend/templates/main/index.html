@@ -13,10 +13,10 @@
         Your Job Hunt, Organized. Optimized. Ready.
     </h3>
     <div id="cta" class="mt-8 flex flex-wrap justify-center gap-4 animate-fade-in-up delay-300">
-        <a href="#" class="px-6 py-3 rounded-full bg-lime-500 text-gray-900 font-semibold shadow-md hover:bg-lime-400 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-lime-500/50">
+        <a href="{{ url_for('auth.register') }}" class="px-6 py-3 rounded-full bg-lime-500 text-gray-900 font-semibold shadow-md hover:bg-lime-400 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-lime-500/50">
             Register
         </a>
-        <a href="#" class="px-6 py-3 rounded-full bg-gray-700 text-white font-semibold shadow-md hover:bg-gray-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-500/50">
+        <a href="{{ url_for('auth.login') }}" class="px-6 py-3 rounded-full bg-gray-700 text-white font-semibold shadow-md hover:bg-gray-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-500/50">
             Login
         </a>
     </div>
