@@ -1,4 +1,5 @@
 from .instances import login_manager, migrate, db
+from .routes.interview import interview_bp
 from .routes.jobapps import job_app_bp
 from .routes.resume import resume_bp
 from .routes.main import main_bp
@@ -25,6 +26,7 @@ def create_app():
     app.register_blueprint(user_bp, url_prefix='/user')
     app.register_blueprint(resume_bp)
     app.register_blueprint(job_app_bp)
+    app.register_blueprint(interview_bp)
 
     with app.app_context():
         db.create_all()

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-4 py-12">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-4">
+        <h1 class="text-3xl font-extrabold text-white">Your Interview History</h1>
+        <a href="{{ url_for('interview.new_interview') }}"
+           class="inline-block bg-lime-500 text-gray-900 font-semibold px-6 py-2 rounded-md hover:bg-lime-400 transition">
+            + Start New Interview
+        </a>
+    </div>
+
+    {% if interviews %}
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {% for interview in interviews %}
+        <a href="{{ url_for('interview.view', interview_id=interview.id) }}" 
+           class="block bg-gray-800 border border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">👥</span>
+                    <h3 class="text-xl font-bold text-lime-400">{{ interview.company }}</h3>
+                </div>
+                <span class="text-sm text-gray-400">{{ interview.date }}</span>
+            </div>
+            
+            <p class="text-gray-300 font-medium mb-2">{{ interview.position }}</p>
+            
+            {% if interview.results %}
+            <div class="mt-4 pt-4 border-t border-gray-700">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="text-center">
+                        <p class="text-sm text-gray-400">Overall Score</p>
+                        <p class="text-2xl font-bold {{ 'text-green-400' if interview.results.scores.overall_score >= 8 else 'text-yellow-400' if interview.results.scores.overall_score >= 6 else 'text-red-400' }}">
+                            {{ interview.results.scores.overall_score }}/10
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-400">Questions</p>
+                        <p class="text-2xl font-bold text-lime-400">
+                            {{ interview.conversation|length }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-gray-800 border border-gray-700 text-center p-8 rounded-xl">
+        <p class="text-gray-400 mb-4">No interviews found. Ready to practice?</p>
+        <a href="{{ url_for('interview.mock_interview_ui') }}"
+           class="inline-block bg-lime-500 text-gray-900 font-semibold px-6 py-2 rounded-md hover:bg-lime-400 transition">
+            Start Your First Interview
+        </a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

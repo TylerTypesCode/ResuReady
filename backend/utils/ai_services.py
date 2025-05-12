@@ -156,3 +156,171 @@ Resume Content:
         logger.error(f"Error in resume analysis: {str(e)}")
         return {"error": str(e)}
     
+def simulate_mock_interview(company, position, resume_text=None, user_response=None, session_id=None, is_start=False, force_complete=False, asked_questions=None):
+    try:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel("gemini-2.0-flash")
+
+        if asked_questions is None:
+            asked_questions = []
+
+        if force_complete:
+            prompt = f"""
+You are concluding a mock interview for {position} at {company}. Based on the candidate's responses, provide a detailed evaluation.
+
+Previous questions and responses summary:
+{asked_questions}
+
+Final response from candidate: {user_response}
+
+Provide a complete evaluation following this exact JSON format with detailed feedback:
+{{
+    "is_complete": true,
+    "scores": {{
+        "communication": <score 1-10>,
+        "technical_knowledge": <score 1-10>,
+        "problem_solving": <score 1-10>,
+        "overall_score": <score 1-10>
+    }},
+    "feedback": {{
+        "strengths": [
+            "<specific strength point 1>",
+            "<specific strength point 2>",
+            "<specific strength point 3>"
+        ],
+        "areas_for_improvement": [
+            "<specific improvement point 1>",
+            "<specific improvement point 2>",
+            "<specific improvement point 3>"
+        ],
+        "specific_recommendations": [
+            "<detailed recommendation 1>",
+            "<detailed recommendation 2>",
+            "<detailed recommendation 3>"
+        ]
+    }}
+}}
+
+Ensure your response:
+1. Contains only the JSON object
+2. Includes specific, actionable feedback
+3. References actual responses from the interview
+4. Provides meaningful scores based on performance
+"""
+            try:
+                response = model.generate_content(prompt)
+                response_text = response.text.strip()
+                
+                # Clean any markdown formatting
+                cleaned_response = re.sub(r"^```(?:json)?\s*|\s*```$", "", response_text, flags=re.MULTILINE).strip()
+                
+                # Parse JSON response
+                evaluation = json.loads(cleaned_response)
+                
+                # Validate the structure
+                required_keys = ["is_complete", "scores", "feedback"]
+                if all(key in evaluation for key in required_keys):
+                    return evaluation
+                else:
+                    raise ValueError("Invalid response structure")
+                    
+            except (json.JSONDecodeError, ValueError) as e:
+                logger.error(f"Error parsing final evaluation: {str(e)}")
+                # Create a more personalized fallback response
+                return {
+                    "is_complete": True,
+                    "scores": {
+                        "communication": 7,
+                        "technical_knowledge": 7,
+                        "problem_solving": 7,
+                        "overall_score": 7
+                    },
+                    "feedback": {
+                        "strengths": [
+                            f"Completed full interview for {position} position",
+                            "Maintained professional communication",
+                            "Engaged thoroughly in the process"
+                        ],
+                        "areas_for_improvement": [
+                            "Consider providing more specific examples",
+                            "Focus on role-specific technical details",
+                            "Structure responses more concisely"
+                        ],
+                        "specific_recommendations": [
+                            f"Research more about {company}'s technical requirements",
+                            "Practice the STAR method for behavioral questions",
+                            "Prepare concrete examples of past experiences"
+                        ]
+                    }
+                }
+
+        elif is_start:
+            prompt = f"""
+You are conducting a 15-minute mock interview as a hiring manager at {company} for the {position} position.
+
+Follow these rules:
+1. Start with a brief introduction as the interviewer
+2. Ask one relevant question that hasn't been asked before
+3. Mix behavioral and technical questions relevant to the role
+4. Maintain a professional tone
+
+Resume Context:
+{resume_text or "No resume provided"}
+
+Begin the interview with your introduction and first question.
+"""
+        else:
+            prompt = f"""
+Continue the mock interview for {position} at {company}.
+
+Previous questions asked: {asked_questions}
+Previous response from candidate: {user_response}
+
+Analyze the response and ask a new question that:
+1. Hasn't been asked before
+2. Is relevant to the role
+3. Builds on previous responses
+4. Alternates between behavioral and technical focus
+
+Response analysis considerations:
+- Clarity and communication
+- Relevance to the question
+- Professional demeanor
+- Technical accuracy (if applicable)
+
+Provide a new, unique interview question.
+"""
+
+        response = model.generate_content(prompt)
+        response_text = response.text.strip()
+        
+        # Handle forced completion or try to parse JSON response
+        if force_complete:
+            try:
+                return json.loads(response_text)
+            except json.JSONDecodeError:
+                # If parsing fails, create a generic completion response
+                return {
+                    "is_complete": True,
+                    "scores": {
+                        "communication": 7,
+                        "technical_knowledge": 7,
+                        "problem_solving": 7,
+                        "overall_score": 7
+                    },
+                    "feedback": {
+                        "strengths": ["Good participation", "Engaged in conversation"],
+                        "areas_for_improvement": ["Interview ended due to length limit"],
+                        "specific_recommendations": ["Practice more concise responses"]
+                    }
+                }
+        
+        # Return in the expected format for continuing interview
+        return {
+            'interviewer_response': response_text,
+            'is_complete': False
+        }
+
+    except Exception as e:
+        logger.error(f"Error in mock interview: {str(e)}")
+        return {"error": str(e)}
