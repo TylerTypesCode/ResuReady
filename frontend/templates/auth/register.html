@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %} Register | ResuReady {% endblock %}
+
+{% block content %}
+<section class="min-h-screen flex items-center justify-center px-6 py-16">
+  <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 bg-gray-900 rounded-3xl shadow-2xl overflow-hidden">
+    
+    <!-- Left: Accent -->
+    <div class="hidden md:flex items-center justify-center bg-gradient-to-tr from-lime-600 to-green-500">
+      <h3 class="text-3xl text-gray-900 font-extrabold px-10 leading-snug">
+        We're excited you're here! <br> Let’s get your journey started.
+      </h3>
+    </div>
+
+    <!-- Right: Form -->
+    <div class="p-10 flex flex-col justify-center space-y-6">
+      <h2 class="text-4xl font-bold text-lime-400">Create Account</h2>
+      <p class="text-gray-400">Join ResuReady and take control of your job hunt.</p>
+      <form class="space-y-4">
+        <input type="text" placeholder="Full Name" class="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-lime-500">
+        <input type="email" placeholder="Email" class="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-lime-500">
+        <input type="password" placeholder="Password" class="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-lime-500">
+        <button type="submit" class="w-full py-3 bg-lime-500 text-gray-900 font-semibold rounded hover:bg-lime-400 transition">Register</button>
+      </form>
+
+      <!-- Divider -->
+      <div class="flex items-center justify-center gap-2 text-sm text-gray-500">
+        <span class="border-t border-gray-600 w-16"></span>
+        or sign up with
+        <span class="border-t border-gray-600 w-16"></span>
+      </div>
+
+      <!-- OAuth Buttons -->
+      <div class="space-y-3">
+        <button class="w-full py-2 px-4 rounded bg-white text-gray-800 font-medium flex items-center justify-center gap-2 hover:bg-gray-100">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="h-5 w-5" alt=""> Google
+        </button>
+        <button class="w-full py-2 px-4 rounded bg-blue-700 text-white font-medium flex items-center justify-center gap-2 hover:bg-blue-800">
+          <img src="https://www.svgrepo.com/show/448234/linkedin.svg" class="h-5 w-5" alt=""> LinkedIn
+        </button>
+      </div>
+
+      <p class="text-sm text-gray-400 text-center">
+        Already have an account? 
+        <a href="/login" class="text-lime-400 hover:underline">Login here</a>
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}
