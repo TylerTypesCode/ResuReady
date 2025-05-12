@@ -1,8 +1,16 @@
 from flask_login import UserMixin
 from datetime import datetime
-from ..instances import db
+from ..instances import login_manager, db
 import uuid
 
+@login_manager.user_loader
+def user_loader(user_id):
+    if user_id:
+        user = User.query.get(user_id)
+        user.is_authenticated = True
+        db.session.commit()
+        return user
+    return None
 
 class User(db.Model, UserMixin):
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -14,6 +22,7 @@ class User(db.Model, UserMixin):
     date_of_birth = db.Column(db.Date, nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
     password_hash = db.Column(db.String(256), nullable=False)
+    is_authenticated = db.Column(db.Boolean, nullable=False, default=False)
 
     #resumes = db.relationship('Resume', backref='owner', lazy=True)
     #job_apps = db.relationship('JobApps', backref='owner', lazy=True)

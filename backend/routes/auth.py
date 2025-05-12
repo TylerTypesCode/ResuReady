@@ -54,6 +54,7 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             flash('Registration Successful!', 'success')
+            login(new_user)
             return redirect(url_for('user.dashboard'))
 
         except Exception as e:
@@ -84,7 +85,7 @@ def login():
             try:
                 login_user(check_user)
                 flash("Login Successful!", 'success')
-                return redirect(url_for('user.dashbord'))
+                return redirect(url_for('user.dashboard'))
             except Exception as e:
                 flash("Something went wrong during login, please try again!", 'error')
                 logger.error(f'Error during Login: {e}')
