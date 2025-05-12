@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">AI Resume Analysis</h1>
+
+    <div class="bg-white rounded-xl shadow p-6 space-y-6">
+        <!-- Overall Score -->
+        <div>
+            <h2 class="text-xl font-semibold text-gray-700">Overall Score</h2>
+            <div class="flex items-center space-x-4 mt-2">
+                <div class="text-4xl font-bold text-indigo-600">{{ analysis['Overall Score'] }}</div>
+                <p class="text-gray-600">{{ analysis['Rationale'] }}</p>
+            </div>
+        </div>
+
+        <!-- Detailed Breakdown -->
+        <div>
+            <h2 class="text-xl font-semibold text-gray-700">Detailed Breakdown</h2>
+            <div class="mt-4 space-y-8">
+                {% for section, details in analysis['Detailed Breakdown'].items() %}
+                <div class="border rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-800">{{ section }}</h3>
+                    <div class="mt-2">
+                        {% if details['Strengths'] %}
+                        <h4 class="font-medium text-green-600">Strengths</h4>
+                        <ul class="list-disc ml-6 text-gray-700">
+                            {% for strength in details['Strengths'] %}
+                            <li>{{ strength }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        
+                        {% if details['Weaknesses'] %}
+                        <h4 class="font-medium text-red-600 mt-4">Weaknesses</h4>
+                        <ul class="list-disc ml-6 text-gray-700">
+                            {% for weakness in details['Weaknesses'] %}
+                            <li>{{ weakness }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        
+                        {% if details['Recommendations'] %}
+                        <h4 class="font-medium text-indigo-600 mt-4">Recommendations</h4>
+                        <ul class="list-disc ml-6 text-gray-700">
+                            {% for recommendation in details['Recommendations'] %}
+                            <li>{{ recommendation }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Overall Recommendations -->
+        <div>
+            <h2 class="text-xl font-semibold text-gray-700">Overall Recommendations</h2>
+            <ul class="list-disc ml-6 mt-2 text-gray-700">
+                {% for recommendation in analysis['Overall Recommendations'] %}
+                <li>{{ recommendation }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

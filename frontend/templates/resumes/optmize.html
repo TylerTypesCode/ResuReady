@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Optimize Resume - {{ resume.title }}</h1>
+
+<p>Click the button below to let AI optimize your resume.</p>
+
+<!-- Form for submitting the request to optimize the resume -->
+<form method="POST">
+    <button type="submit">Optimize with AI</button>
+</form>
+
+<!-- Cancel link to go back to the dashboard -->
+<a href="{{ url_for('resumes.dashboard') }}">Cancel</a>
+
+{% endblock %}

@@ -8,3 +8,6 @@
 2025-05-11 19:21:12,079 - flask_app - ERROR - GEMINI FETCH ERROR: name 'json' is not defined
 2025-05-11 19:21:20,165 - flask_app - ERROR - GEMINI FETCH ERROR: name 'json' is not defined
 2025-05-11 19:21:30,406 - flask_app - ERROR - GEMINI FETCH ERROR: name 'json' is not defined
+2025-05-11 20:46:46,171 - flask_app - ERROR - Error in user registration: login() takes 0 positional arguments but 1 was given
+2025-05-11 21:13:59,463 - flask_app - ERROR - Error in user registration: login() takes 0 positional arguments but 1 was given
+2025-05-11 22:42:21,531 - flask_app - ERROR - Error in user registration: login() takes 0 positional arguments but 1 was given

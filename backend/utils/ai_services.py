@@ -25,6 +25,7 @@ if not api_key:
 else:
     logger.debug(f"Gemini API Key loaded successfully.")
 
+# Function to get Job Market Trends from AI (Gemini)
 def get_job_market_trends():
     """
     Fetch 3 current job market trends using Gemini 2.0 Flash.
@@ -84,3 +85,74 @@ def get_job_market_trends():
         logger.error(f"Gemini API error: {e}")
         return []
 
+# Function to get resume analysis from AI (Gemini)
+def analyze_resume_with_ai(resume_content):
+    try:
+        # Configure Gemini API
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel("gemini-2.0-flash")
+
+        # Construct prompt correctly
+        prompt = f"""
+You are a professional resume analyst.  
+Always respond in this strict JSON format:
+
+{{
+  "Overall Score": "<integer>/10",
+  "Rationale": "<short summary of the score reasoning>",
+  "Detailed Breakdown": {{
+    "Contact Information": {{
+      "Strengths": ["..."],
+      "Weaknesses": ["..."],
+      "Recommendations": ["..."]
+    }},
+    "Skills": {{
+      "Strengths": ["..."],
+      "Weaknesses": ["..."],
+      "Recommendations": ["..."]
+    }},
+    "Work Experience": {{
+      "Strengths": ["..."],
+      "Weaknesses": ["..."],
+      "Recommendations": ["..."]
+    }},
+    "Education": {{
+      "Strengths": ["..."],
+      "Weaknesses": ["..."],
+      "Recommendations": ["..."]
+    }},
+    "Certifications": {{
+      "Strengths": ["..."],
+      "Weaknesses": ["..."],
+      "Recommendations": ["..."]
+    }}
+  }},
+  "Overall Recommendations": [
+    "...",
+    "...",
+    "..."
+  ]
+}}
+
+Analyze this resume and return the JSON only.  
+Resume Content:
+{resume_content}
+"""
+
+        # Send request to Gemini API
+        response = model.generate_content(prompt)
+        analysis_text = response.text.strip()
+
+        # Clean any Markdown code blocks if present
+        cleaned_content = re.sub(r"^```(?:json)?\s*|\s*```$", "", analysis_text, flags=re.MULTILINE).strip()
+
+        # Validate JSON
+        analysis_json = json.loads(cleaned_content)
+
+        # ✅ Return JSON object (you can convert to string later when rendering)
+        return analysis_json
+
+    except Exception as e:
+        logger.error(f"Error in resume analysis: {str(e)}")
+        return {"error": str(e)}
+    

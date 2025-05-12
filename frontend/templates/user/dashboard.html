@@ -30,8 +30,8 @@
         <div class="text-lime-400 mb-4 text-5xl">⚡</div>
         <h4 class="text-2xl font-bold text-lime-300 mb-4">Quick Actions</h4>
         <ul class="text-gray-400 space-y-2">
-            <li><a href="#" class="hover:text-lime-400">📄 Manage Resumes</a></li>
-            <li><a href="#" class="hover:text-lime-400">📋 Track Applications</a></li>
+            <li><a href="{{ url_for('resumes.dashboard') }}" class="hover:text-lime-400">📄 Manage Resumes</a></li>
+            <li><a href="{{ url_for('job_apps.dashboard') }}" class="hover:text-lime-400">📋 Track Applications</a></li>
             <li><a href="#" class="hover:text-lime-400">🤖 Start Mock Interview</a></li>
         </ul>
     </div>

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Job Applications{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold text-gray-700 mb-6">Job Applications Dashboard</h2>
+
+<!-- Create New Job Application Button -->
+<a href="{{ url_for('job_apps.create') }}" class="inline-block px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 mb-4">Create New Application</a>
+
+<!-- Job Applications Table -->
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+        <thead class="bg-gray-200 text-gray-600 text-sm font-medium">
+            <tr>
+                <th class="px-6 py-3 text-left">Company</th>
+                <th class="px-6 py-3 text-left">Position</th>
+                <th class="px-6 py-3 text-left">Location</th>
+                <th class="px-6 py-3 text-left">Application Date</th>
+                <th class="px-6 py-3 text-left">Status</th>
+                <th class="px-6 py-3 text-left">Interview Date</th>
+                <th class="px-6 py-3 text-left">Interview Mode</th>
+                <th class="px-6 py-3 text-left">Salary Offer</th>
+                <th class="px-6 py-3 text-left">Job Type</th>
+                <th class="px-6 py-3 text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if job_apps %}
+                {% for job in job_apps %}
+                    <tr class="border-b hover:bg-gray-50" data-job-id="{{ job.id }}">
+                        <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="company" contenteditable="true">{{ job.company }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="position" contenteditable="true">{{ job.position }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="location" contenteditable="true">{{ job.location }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800">{{ job.application_date.strftime('%Y-%m-%d') }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="status" contenteditable="true">{{ job.status }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="interview_date" contenteditable="true">{{ job.interview_date.strftime('%Y-%m-%d') if job.interview_date else 'N/A' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="interview_mode" contenteditable="true">{{ job.interview_mode }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="salary_offer" contenteditable="true">{{ job.salary_offer if job.salary_offer else 'N/A' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="job_type" contenteditable="true">{{ job.job_type }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800">
+                            <a href="{{ url_for('job_apps.edit', job_app_id=job.id) }}" class="text-blue-600 hover:underline">Edit</a> |
+                            <form action="{{ url_for('job_apps.delete', job_app_id=job.id) }}" method="POST" class="inline">
+                                <button type="submit" class="text-red-600 hover:underline" onclick="return confirm('Are you sure you want to delete this application?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="10" class="px-6 py-4 text-center text-gray-600">No job applications found.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Inline Editing JavaScript -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const table = document.querySelector("table");
+
+    table.addEventListener("blur", (event) => {
+        if (event.target.classList.contains("editable")) {
+            const row = event.target.closest("tr");
+            const jobId = row.dataset.jobId;
+            const column = event.target.dataset.column;
+            const newValue = event.target.textContent.trim();
+
+            if (!newValue) return;
+
+            fetch('{{ url_for("job_apps.update_job") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    job_id: jobId,
+                    column: column,
+                    value: newValue
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("Updated successfully");
+                } else {
+                    alert(data.message || "Failed to update.");
+                }
+            })
+            .catch(error => console.error("Update error:", error));
+        }
+    }, true);
+});
+</script>
+{% endblock %}

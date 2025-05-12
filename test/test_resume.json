@@ -1,0 +1,23 @@
+[
+    {
+        "first_name": "Sarah",
+        "last_name": "Johnson",
+        "email": "sarah.johnson@example.com",
+        "phone_number": "7801234567",
+        "address": "4567 50th Ave, Edmonton, AB",
+        "city": "Edmonton",
+        "date_of_birth": "1995-05-12",
+        "skills": "Leadership, Time Management, Critical Thinking, Data Analysis, Communication",
+        "work_experience": [
+            {
+                "position": "Marketing Manager",
+                "company": "Tech Solutions Inc.",
+                "location": "Edmonton, AB",
+                "start_date": "2020-01-15",
+                "end_date": "2022-11-30",
+                "is_present": false,
+                "duties": "Developed marketing strategies, led marketing campaigns, managed team, analyzed market trends"
+            }
+        ]
+    }
+]

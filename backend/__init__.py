@@ -1,4 +1,6 @@
 from .instances import login_manager, migrate, db
+from .routes.jobapps import job_app_bp
+from .routes.resume import resume_bp
 from .routes.main import main_bp
 from .routes.auth import auth_bp
 from .routes.user import user_bp
@@ -19,8 +21,10 @@ def create_app():
     db.init_app(app)
 
     app.register_blueprint(main_bp)
-    app.register_blueprint(auth_bp, prefix='/auth')
-    app.register_blueprint(user_bp, prefix='/user')
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(user_bp, url_prefix='/user')
+    app.register_blueprint(resume_bp)
+    app.register_blueprint(job_app_bp)
 
     with app.app_context():
         db.create_all()

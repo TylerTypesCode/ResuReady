@@ -7,12 +7,13 @@ import uuid
 def user_loader(user_id):
     if user_id:
         user = User.query.get(user_id)
-        user.is_authenticated = True
         db.session.commit()
         return user
     return None
 
 class User(db.Model, UserMixin):
+    __tablename__ = 'user'
+
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     first_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80), nullable=False)
@@ -22,11 +23,9 @@ class User(db.Model, UserMixin):
     date_of_birth = db.Column(db.Date, nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
     password_hash = db.Column(db.String(256), nullable=False)
-    is_authenticated = db.Column(db.Boolean, nullable=False, default=False)
 
-    #resumes = db.relationship('Resume', backref='owner', lazy=True)
-    #job_apps = db.relationship('JobApps', backref='owner', lazy=True)
-    #interviews = db.relationship('Interviews', backref='owner', lazy=True)
+    resumes = db.relationship('Resume', backref='owner', lazy=True, cascade="all, delete-orphan")
 
     created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+

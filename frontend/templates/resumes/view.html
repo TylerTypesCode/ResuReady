@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %}Resume | {{ resume.first_name }} {{ resume.last_name }}{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #f3f4f6;
+  }
+
+  .resume-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    color: #111827;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.05);
+  }
+
+  .resume-header {
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .resume-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .contact-info p {
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+    color: #374151;
+  }
+
+  h3.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #d1d5db;
+    padding-bottom: 0.25rem;
+    color: #111827;
+  }
+
+  .entry-block {
+    margin-bottom: 1.5rem;
+  }
+
+  .entry-block h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1f2937;
+  }
+
+  .entry-block p {
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+    color: #374151;
+  }
+
+  .entry-dates {
+    font-style: italic;
+    color: #6b7280;
+  }
+</style>
+
+<div class="resume-container">
+  <!-- Header -->
+  <div class="resume-header">
+    <h1>{{ resume.first_name }} {{ resume.last_name }}</h1>
+    <div class="contact-info">
+      <p><strong>Email:</strong> {{ resume.email }}</p>
+      <p><strong>Phone:</strong> {{ resume.phone_number }}</p>
+      <p><strong>Address:</strong> {{ resume.address }}, {{ resume.city }}</p>
+      <p><strong>DOB:</strong> {{ resume.date_of_birth.strftime('%B %d, %Y') if resume.date_of_birth else 'N/A' }}</p>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <h3 class="section-title">Skills</h3>
+  <p>{{ resume.skills }}</p>
+
+  <!-- Work Experience -->
+  <h3 class="section-title">Work Experience</h3>
+  {% for work in work_experiences %}
+  <div class="entry-block">
+    <h4>{{ work.position }} — {{ work.company }}</h4>
+    <p>{{ work.location }}</p>
+    <p class="entry-dates">
+      {{ work.start_date.strftime('%b %Y') if work.start_date }} -
+      {% if work.is_present %}Present{% else %}{{ work.end_date.strftime('%b %Y') if work.end_date }}{% endif %}
+    </p>
+    <p>{{ work.duties }}</p>
+  </div>
+  {% endfor %}
+
+  <!-- Education -->
+  <h3 class="section-title">Education</h3>
+  {% for edu in education_histories %}
+  <div class="entry-block">
+    <h4>{{ edu.title }} — {{ edu.school }}</h4>
+    <p>{{ edu.location }}</p>
+    <p class="entry-dates">
+      {{ edu.start_date.strftime('%b %Y') if edu.start_date }} -
+      {% if edu.in_progress %}In Progress{% else %}{{ edu.graduation_date.strftime('%b %Y') if edu.graduation_date }}{% endif %}
+    </p>
+    <p>{{ edu.achievements }}</p>
+  </div>
+  {% endfor %}
+
+  <!-- Certifications -->
+  <h3 class="section-title">Certifications</h3>
+  {% for cert in certifications %}
+  <div class="entry-block">
+    <h4>{{ cert.title }}</h4>
+    <p><strong>Issuer:</strong> {{ cert.issuer }}</p>
+    <p><strong>Completed:</strong> {{ cert.completed_date.strftime('%b %d, %Y') if cert.completed_date else 'N/A' }}</p>
+    <p><strong>Expiry:</strong> {{ cert.expiry_date.strftime('%b %d, %Y') if cert.expiry_date else 'N/A' }}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

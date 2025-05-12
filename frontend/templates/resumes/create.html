@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block title %}Create Resume | ResuReady{% endblock %}
+
+{% block content %}
+<section class="max-w-5xl mx-auto py-16 px-4" x-data="resumeForm()" x-init="$nextTick(() => scrollTo(0, 0))">
+  <h1 class="text-4xl font-extrabold text-lime-400 text-center mb-12 animate-fade-in-up">Create Your Resume</h1>
+
+  <form method="POST" class="space-y-12 animate-fade-in-up delay-100 transition-opacity duration-500">
+    {{ form.csrf_token if form and form.csrf_token }}
+
+    <!-- PERSONAL INFO -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <template x-for="field in personalFields" :key="field.name">
+        <div>
+          <label :for="field.name" class="block mb-1 text-sm font-semibold text-gray-300" x-text="field.label"></label>
+          <input :type="field.type" :name="field.name" :placeholder="field.placeholder" :required="field.required"
+            class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500" />
+        </div>
+      </template>
+    </div>
+
+    <!-- WORK EXPERIENCE -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-2xl font-bold text-white">💼 Work Experience</h3>
+        <button type="button" @click="addExperience()" x-show="work_experiences.length < 4"
+          class="text-sm text-lime-400 hover:underline">+ Add</button>
+      </div>
+      <template x-for="(job, index) in work_experiences" :key="index">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border border-gray-700 p-4 rounded-lg bg-gray-800 transition-all transform hover:scale-[1.01]">
+          <input :name="`work_experiences[${index}][position]`" type="text" placeholder="Position" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`work_experiences[${index}][company]`" type="text" placeholder="Company" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`work_experiences[${index}][location]`" type="text" placeholder="Location" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`work_experiences[${index}][duties]`" type="text" placeholder="Duties" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`work_experiences[${index}][start_date]`" type="date" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`work_experiences[${index}][end_date]`" type="date" :disabled="job.is_present" class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <label class="col-span-2 flex items-center gap-2 text-gray-400">
+            <input type="checkbox" :name="`work_experiences[${index}][is_present]`" x-model="job.is_present"> Currently working
+          </label>
+        </div>
+      </template>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-2xl font-bold text-white">🎓 Education</h3>
+        <button type="button" @click="addEducation()" x-show="education_history.length < 4"
+          class="text-sm text-lime-400 hover:underline">+ Add</button>
+      </div>
+      <template x-for="(edu, index) in education_history" :key="index">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border border-gray-700 p-4 rounded-lg bg-gray-800 transition-all transform hover:scale-[1.01]">
+          <input :name="`education_history[${index}][title]`" type="text" placeholder="Degree/Program" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`education_history[${index}][school]`" type="text" placeholder="School" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`education_history[${index}][location]`" type="text" placeholder="Location" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`education_history[${index}][achievements]`" type="text" placeholder="Achievements" class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`education_history[${index}][start_date]`" type="date" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`education_history[${index}][graduation_date]`" type="date" :disabled="edu.in_progress" class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <label class="col-span-2 flex items-center gap-2 text-gray-400">
+            <input type="checkbox" :name="`education_history[${index}][in_progress]`" x-model="edu.in_progress"> Still Enrolled
+          </label>
+        </div>
+      </template>
+    </div>
+
+    <!-- CERTIFICATIONS -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-2xl font-bold text-white">📜 Certifications</h3>
+        <button type="button" @click="addCertification()" x-show="certifications.length < 4"
+          class="text-sm text-lime-400 hover:underline">+ Add</button>
+      </div>
+      <template x-for="(cert, index) in certifications" :key="index">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border border-gray-700 p-4 rounded-lg bg-gray-800 transition-all transform hover:scale-[1.01]">
+          <input :name="`certifications[${index}][title]`" type="text" placeholder="Certification Title" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`certifications[${index}][issuer]`" type="text" placeholder="Issuer" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`certifications[${index}][completed_date]`" type="date" required class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+          <input :name="`certifications[${index}][expiry_date]`" type="date" placeholder="Expiry (Optional)" class="transition-all duration-300 w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-lime-500">
+        </div>
+      </template>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="flex justify-end gap-4 mt-12">
+      <a href="{{ url_for('resumes.dashboard') }}" class="text-gray-400 hover:underline transition">Cancel</a>
+      <button type="submit" class="bg-lime-500 hover:bg-lime-400 text-gray-900 font-semibold px-6 py-2 rounded shadow transition transform hover:scale-105">
+        Submit Resume
+      </button>
+    </div>
+  </form>
+</section>
+
+<!-- AlpineJS -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+<script>
+  function resumeForm() {
+    return {
+      work_experiences: [{ is_present: false }],
+      education_history: [{ in_progress: false }],
+      certifications: [{}],
+      personalFields: [
+        { name: 'first_name', label: 'First Name', type: 'text', placeholder: 'First Name', required: true },
+        { name: 'last_name', label: 'Last Name', type: 'text', placeholder: 'Last Name', required: true },
+        { name: 'email', label: 'Email', type: 'email', placeholder: 'you@email.com', required: true },
+        { name: 'phone_number', label: 'Phone', type: 'text', placeholder: '555-555-5555', required: true },
+        { name: 'address', label: 'Address', type: 'text', placeholder: '123 Main St', required: true },
+        { name: 'city', label: 'City', type: 'text', placeholder: 'New York', required: true },
+        { name: 'date_of_birth', label: 'Date of Birth', type: 'date', required: true },
+        { name: 'skills', label: 'Skills', type: 'text', placeholder: 'Python, SQL, Tailwind', required: true },
+      ],
+      addExperience() {
+        if (this.work_experiences.length < 4) this.work_experiences.push({ is_present: false });
+      },
+      addEducation() {
+        if (this.education_history.length < 4) this.education_history.push({ in_progress: false });
+      },
+      addCertification() {
+        if (this.certifications.length < 4) this.certifications.push({});
+      }
+    }
+  }
+</script>
+
+<style>
+  .form-input {
+    @apply w-full px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-lime-500;
+  }
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+{% endblock %}

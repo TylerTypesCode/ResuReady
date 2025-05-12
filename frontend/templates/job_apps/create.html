@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Job Application{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold text-gray-700 mb-6">Create a Job Application</h2>
+
+<form method="POST" class="space-y-6">
+    <div class="space-y-4">
+        <label for="company" class="block text-sm font-medium text-gray-600">Company</label>
+        <input type="text" id="company" name="company" class="block w-full p-2 border border-gray-300 rounded-md" required>
+    </div>
+
+    <div class="space-y-4">
+        <label for="position" class="block text-sm font-medium text-gray-600">Position</label>
+        <input type="text" id="position" name="position" class="block w-full p-2 border border-gray-300 rounded-md" required>
+    </div>
+
+    <div class="space-y-4">
+        <label for="location" class="block text-sm font-medium text-gray-600">Location</label>
+        <input type="text" id="location" name="location" class="block w-full p-2 border border-gray-300 rounded-md" required>
+    </div>
+
+    <div class="space-y-4">
+        <label for="application_date" class="block text-sm font-medium text-gray-600">Application Date</label>
+        <input type="date" id="application_date" name="application_date" class="block w-full p-2 border border-gray-300 rounded-md" required>
+    </div>
+
+    <div class="space-y-4">
+        <label for="status" class="block text-sm font-medium text-gray-600">Status</label>
+        <select id="status" name="status" class="block w-full p-2 border border-gray-300 rounded-md">
+            <option value="Applied">Applied</option>
+            <option value="Interviewing">Interviewing</option>
+            <option value="Offered">Offered</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+    </div>
+
+    <div class="space-y-4">
+        <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-md">Submit</button>
+    </div>
+</form>
+{% endblock %}

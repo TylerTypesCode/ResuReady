@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Your Resumes | ResuReady{% endblock %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-4 py-12">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-4">
+    <h1 class="text-3xl font-extrabold text-white">Your Resumes</h1>
+    <a href="{{ url_for('resumes.create') }}"
+       class="inline-block bg-lime-500 text-gray-900 font-semibold px-6 py-2 rounded-md hover:bg-lime-400 transition">
+      + Create New Resume
+    </a>
+  </div>
+
+  <!-- Import Form -->
+  <form action="{{ url_for('resumes.import_resume') }}" method="POST" enctype="multipart/form-data"
+        class="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-10">
+    <label for="file" class="block text-sm font-medium text-gray-300 mb-2">Import Resume (CSV or JSON)</label>
+    <div class="flex flex-col sm:flex-row items-center gap-4">
+      <input type="file" name="file" required
+             class="bg-gray-900 text-white border border-gray-700 rounded-md px-4 py-2 w-full sm:w-auto">
+      <button type="submit"
+              class="bg-lime-500 hover:bg-lime-400 text-gray-900 font-semibold px-6 py-2 rounded-md transition">
+        Import
+      </button>
+    </div>
+  </form>
+
+  {% if resumes %}
+    <div class="grid gap-6">
+      {% for resume in resumes %}
+        <div class="bg-gray-800 border border-gray-700 rounded-xl p-6 shadow-md hover:shadow-lg transition">
+          <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+            <!-- Resume Info -->
+            <div>
+              <h3 class="text-xl font-bold text-lime-400">{{ resume.first_name }} {{ resume.last_name }}</h3>
+              <p class="text-gray-400 text-sm mt-1"><strong>Email:</strong> {{ resume.email }}</p>
+              <p class="text-gray-400 text-sm"><strong>Phone:</strong> {{ resume.phone_number }}</p>
+              <p class="text-gray-400 text-sm mt-2"><strong>Skills:</strong>
+                {{ resume.skills[:200] }}{% if resume.skills|length > 200 %}...{% endif %}
+              </p>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-wrap justify-start md:justify-end gap-2 mt-4 md:mt-0">
+              <a href="{{ url_for('resumes.view', resume_id=resume.id) }}"
+                 class="btn-action bg-green-600 hover:bg-green-500">View</a>
+              <a href="{{ url_for('resumes.edit', resume_id=resume.id) }}"
+                 class="btn-action bg-blue-600 hover:bg-blue-500">Edit</a>
+              <a href="{{ url_for('resumes.analyze', resume_id=resume.id) }}"
+                 class="btn-action bg-indigo-600 hover:bg-indigo-500">Analyze</a>
+              <a href="{{ url_for('resumes.export_resume', resume_id=resume.id, format='json') }}"
+                 class="btn-action bg-yellow-700 hover:bg-yellow-600">JSON</a>
+
+              <form method="POST" action="{{ url_for('resumes.delete', resume_id=resume.id) }}"
+                    onsubmit="return confirm('Delete this resume?');">
+                <button type="submit" class="btn-action bg-red-600 hover:bg-red-500">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="bg-gray-800 border border-gray-700 text-center p-8 rounded-xl text-gray-400 mt-12">
+      <p>No resumes found. Ready to build your first one?</p>
+      <a href="{{ url_for('resumes.create') }}"
+         class="mt-4 inline-block bg-lime-500 text-gray-900 font-semibold px-6 py-2 rounded-md hover:bg-lime-400 transition">
+        Get Started
+      </a>
+    </div>
+  {% endif %}
+</section>
+
+<style>
+  .btn-action {
+    @apply text-sm text-white font-semibold px-4 py-2 rounded-md transition shadow-sm;
+  }
+</style>
+{% endblock %}
