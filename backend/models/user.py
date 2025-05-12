@@ -26,8 +26,9 @@ class User(db.Model, UserMixin):
 
     resumes = db.relationship('Resume', backref='owner', lazy=True, cascade="all, delete-orphan")
     job_applications = db.relationship('JobApp', backref='owner', lazy=True)
-    interviews = db.relationship('MockInterview', backref='user', lazy=True)
+    
+    # Fix: Remove the conflicting backref from here
+    interviews = db.relationship('Interview', lazy=True)
 
     created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
-

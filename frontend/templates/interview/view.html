@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-6">
+    <!-- Interview Header -->
+    <div class="mb-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-lime-400">{{ interview.company }} Interview</h1>
+                <p class="text-gray-400">{{ interview.position }} - {{ interview.date.strftime('%B %d, %Y') }}</p>
+            </div>
+            <a href="{{ url_for('interview.dashboard') }}" 
+               class="text-lime-500 hover:text-lime-400 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back to Interviews
+            </a>
+        </div>
+    </div>
+
+    <!-- Interview Transcript -->
+    <div class="bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <h2 class="text-xl font-bold text-lime-400 mb-4">Interview Transcript</h2>
+        <div class="space-y-4">
+            {% for message in interview.conversation %}
+                <div class="p-4 rounded-lg {{ 'bg-blue-900/50 border-l-4 border-blue-500 ml-2 mr-12' if message.role == 'interviewer' else 'bg-lime-900/50 border-l-4 border-lime-500 ml-12 mr-2' }}">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xl">{{ '👤' if message.role == 'interviewer' else '👤' }}</span>
+                        <span class="font-bold {{ 'text-blue-400' if message.role == 'interviewer' else 'text-lime-400' }}">
+                            {{ 'You' if message.role == 'interviewer' else 'Interviewer' }}
+                        </span>
+                    </div>
+                    <div class="text-gray-300 whitespace-pre-wrap leading-relaxed pl-8">
+                        {{ message.content }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Interview Results -->
+    {% if interview.results %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Scores Card -->
+        <div class="bg-gray-800 rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-lime-400 mb-4">Performance Scores</h2>
+            <div class="space-y-4">
+                {% for category, score in interview.results.scores.items() %}
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-300">{{ category|title }}</span>
+                    <div class="flex items-center">
+                        <span class="text-2xl font-bold {{ 'text-green-400' if score >= 8 else 'text-yellow-400' if score >= 6 else 'text-red-400' }}">
+                            {{ score }}
+                        </span>
+                        <span class="text-gray-400 text-sm ml-1">/10</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Feedback Card -->
+        <div class="bg-gray-800 rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-lime-400 mb-4">Interview Feedback</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-semibold text-green-400 mb-2">Strengths</h3>
+                    <ul class="list-disc ml-4 space-y-1 text-gray-300">
+                        {% for strength in interview.results.feedback.strengths %}
+                        <li>{{ strength }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-red-400 mb-2">Areas for Improvement</h3>
+                    <ul class="list-disc ml-4 space-y-1 text-gray-300">
+                        {% for area in interview.results.feedback.areas_for_improvement %}
+                        <li>{{ area }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-blue-400 mb-2">Recommendations</h3>
+                    <ul class="list-disc ml-4 space-y-1 text-gray-300">
+                        {% for rec in interview.results.feedback.specific_recommendations %}
+                        <li>{{ rec }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
