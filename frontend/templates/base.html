@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-900 text-gray-100 scroll-smooth antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-900 selection:bg-lime-500 selection:text-gray-900">
+
+    <!-- Header -->
+    {% include './components/header.html' %}
+
+    <!-- Flash Messages -->
+    <div class="max-w-3xl mx-auto mt-6 px-4 space-y-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="p-4 rounded-lg shadow-lg transition-all duration-500 transform hover:scale-105
+                        {% if category == 'success' %}bg-green-600/90 text-green-50
+                        {% elif category == 'error' %}bg-red-600/90 text-red-50
+                        {% elif category == 'warning' %}bg-yellow-600/90 text-yellow-50
+                        {% else %}bg-gray-700/90 text-gray-100{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-12 space-y-16" id="features">
+        {% block content %}
+        <!-- Dynamic content will be injected here -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include './components/footer.html' %}
+
+</body>
+</html>

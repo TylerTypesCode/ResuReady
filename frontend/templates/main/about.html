@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us | ResuReady{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="relative min-h-[70vh] flex flex-col justify-center items-center text-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-6 overflow-hidden">
+    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-lime-400 to-green-500 animate-fade-in-up">
+        About ResuReady
+    </h1>
+    <p class="mt-4 max-w-xl text-lg text-gray-400 animate-fade-in-up delay-200">
+        ResuReady is built by job seekers, for job seekers—streamlining the job hunt into an optimized, organized, and winning process.
+    </p>
+    <!-- Accent blob -->
+    <div class="absolute w-[40rem] h-[40rem] bg-gradient-to-tr from-green-600 to-lime-500 rounded-full blur-3xl opacity-10 -z-10"></div>
+</section>
+
+<!-- Our Story Timeline -->
+<section class="py-24 bg-gray-900 relative">
+    <div class="max-w-5xl mx-auto px-6 space-y-16">
+        <h2 class="text-4xl font-bold text-center text-lime-400 mb-12 animate-fade-in-up">Our Journey</h2>
+        <div class="space-y-12">
+
+            <div class="flex items-start gap-6 animate-fade-in-up">
+                <div class="flex-shrink-0 w-12 h-12 bg-lime-500 rounded-full flex items-center justify-center font-bold text-gray-900">
+                    🚀
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-lime-300">The Idea</h3>
+                    <p class="mt-2 text-gray-400">ResuReady was born when our founder <span class="text-lime-400 font-bold">Anthony Dinunzio</span> recognized a massive gap in job-seeking tools—no effective way to stay organized, optimized, and on track.</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-6 animate-fade-in-up delay-200">
+                <div class="flex-shrink-0 w-12 h-12 bg-lime-500 rounded-full flex items-center justify-center font-bold text-gray-900">
+                    💡
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-lime-300">Prototyping</h3>
+                    <p class="mt-2 text-gray-400">What started as a simple prototype quickly turned into an essential job search companion, driven by user needs and real-world feedback.</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-6 animate-fade-in-up delay-400">
+                <div class="flex-shrink-0 w-12 h-12 bg-lime-500 rounded-full flex items-center justify-center font-bold text-gray-900">
+                    🌱
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-lime-300">Growth & Impact</h3>
+                    <p class="mt-2 text-gray-400">ResuReady is now helping hundreds of users stay ahead in their job search with cutting-edge tools, real-time tracking, and AI-assisted mock interviews.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Subtle accent -->
+    <div class="absolute w-[30rem] h-[30rem] bg-gradient-to-br from-lime-500 to-green-600 rounded-full blur-3xl opacity-10 -z-10 right-0 bottom-0"></div>
+</section>
+
+<!-- Core Values -->
+<section class="py-24 bg-gray-800">
+    <div class="max-w-7xl mx-auto px-6 text-center space-y-16">
+        <h2 class="text-4xl font-bold text-lime-400">Our Core Values</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+            <div class="group bg-gray-900 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02]">
+                <div class="text-5xl mb-6 group-hover:rotate-3 transition">🎯</div>
+                <h3 class="text-2xl font-bold text-lime-300 mb-4">Focus</h3>
+                <p class="text-gray-400">We help users focus on what matters—clear, structured job hunt processes, optimized for results.</p>
+            </div>
+
+            <div class="group bg-gray-900 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02]">
+                <div class="text-5xl mb-6 group-hover:-rotate-3 transition">⚡</div>
+                <h3 class="text-2xl font-bold text-lime-300 mb-4">Speed</h3>
+                <p class="text-gray-400">We obsess over performance, making sure your journey from resume to interview is lightning fast and frictionless.</p>
+            </div>
+
+            <div class="group bg-gray-900 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02]">
+                <div class="text-5xl mb-6 group-hover:rotate-3 transition">🤝</div>
+                <h3 class="text-2xl font-bold text-lime-300 mb-4">Empathy</h3>
+                <p class="text-gray-400">We’ve been there. Our mission is to empower job seekers with empathy, support, and the tools they deserve.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-24 bg-gray-900 text-center relative">
+    <div class="max-w-3xl mx-auto px-6 space-y-6">
+        <h2 class="text-4xl font-bold text-lime-400">Ready to Supercharge Your Job Search?</h2>
+        <p class="text-gray-400 text-lg m">Join hundreds of users who have taken control of their job search with ResuReady.</p>
+    </div>
+    <div class="absolute w-[40rem] h-[40rem] bg-gradient-to-br from-green-600 to-lime-500 rounded-full blur-3xl opacity-10 -z-10 left-1/2 -translate-x-1/2 top-0"></div>
+</section>
+
+{% endblock %}

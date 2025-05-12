@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %} Features | ResuReady {% endblock %}
+
+{% block content %}
+
+<!-- Features Header Section -->
+<section class="text-center py-24 relative">
+  <h2 class="text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-lime-400 to-green-500 mb-4 animate-fade-in-up">
+    Everything You Need to Land the Job
+  </h2>
+  <p class="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl animate-fade-in-up delay-100">
+    Built for job seekers who are serious about staying organized, standing out, and winning interviews.
+  </p>
+  <!-- Background Accent -->
+  <div class="absolute w-[50rem] h-[50rem] bg-gradient-to-br from-lime-500 to-green-600 rounded-full blur-3xl opacity-10 -z-10 left-1/2 -translate-x-1/2 top-10"></div>
+</section>
+
+<!-- Feature Cards Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl mx-auto px-6 py-12">
+  <!-- Feature Card -->
+  <div class="group bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+    <div class="text-5xl text-lime-400 mb-6 transform group-hover:rotate-6 transition-transform duration-300">📄</div>
+    <h3 class="text-2xl font-bold text-lime-300 mb-4">Smart Resume Builder</h3>
+    <ul class="text-gray-400 space-y-2 text-left text-base leading-relaxed">
+      <li>✅ Multiple resume versions per job type</li>
+      <li>✅ AI-optimized bullet points</li>
+      <li>✅ PDF & Web Export</li>
+    </ul>
+  </div>
+
+  <div class="group bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+    <div class="text-5xl text-lime-400 mb-6 transform group-hover:-rotate-6 transition-transform duration-300">📋</div>
+    <h3 class="text-2xl font-bold text-lime-300 mb-4">Application Tracker</h3>
+    <ul class="text-gray-400 space-y-2 text-left text-base leading-relaxed">
+      <li>✅ Status Tags & Due Dates</li>
+      <li>✅ Follow-Up Reminders</li>
+      <li>✅ Centralized job dashboard</li>
+    </ul>
+  </div>
+
+  <div class="group bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+    <div class="text-5xl text-lime-400 mb-6 transform group-hover:rotate-3 transition-transform duration-300">🤖</div>
+    <h3 class="text-2xl font-bold text-lime-300 mb-4">AI Mock Interviews</h3>
+    <ul class="text-gray-400 space-y-2 text-left text-base leading-relaxed">
+      <li>✅ Adaptive questions by role</li>
+      <li>✅ Real-time scoring & coaching</li>
+      <li>✅ Instant transcript & feedback</li>
+    </ul>
+  </div>
+
+  <div class="group bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+    <div class="text-5xl text-lime-400 mb-6 transform group-hover:-rotate-3 transition-transform duration-300">📆</div>
+    <h3 class="text-2xl font-bold text-lime-300 mb-4">Calendar Sync</h3>
+    <ul class="text-gray-400 space-y-2 text-left text-base leading-relaxed">
+      <li>✅ Sync interviews & reminders</li>
+      <li>✅ Integrated with Google Calendar</li>
+      <li>✅ Never miss a deadline again</li>
+    </ul>
+  </div>
+
+  <div class="group bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+    <div class="text-5xl text-lime-400 mb-6 transform group-hover:rotate-6 transition-transform duration-300">📊</div>
+    <h3 class="text-2xl font-bold text-lime-300 mb-4">Analytics Dashboard</h3>
+    <ul class="text-gray-400 space-y-2 text-left text-base leading-relaxed">
+      <li>✅ Conversion tracking per job</li>
+      <li>✅ Resume performance insights</li>
+      <li>✅ Benchmarking & trends</li>
+    </ul>
+  </div>
+
+  <div class="group bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+    <div class="text-5xl text-lime-400 mb-6 transform group-hover:-rotate-6 transition-transform duration-300">🧠</div>
+    <h3 class="text-2xl font-bold text-lime-300 mb-4">Career Coaching</h3>
+    <ul class="text-gray-400 space-y-2 text-left text-base leading-relaxed">
+      <li>✅ Resume & Interview review</li>
+      <li>✅ Personalized weekly goals</li>
+      <li>✅ AI & human coach options</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="text-center py-24 bg-gray-900 relative">
+  <h3 class="text-3xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-lime-500 mb-6">
+    Ready to Supercharge Your Job Hunt?
+  </h3>
+  <div class="flex justify-center gap-6 flex-wrap">
+    <a href="#" class="px-8 py-3 bg-lime-500 text-gray-900 font-semibold rounded-full shadow-md hover:bg-lime-400 transition-transform duration-300 hover:scale-105">
+      Get Started Free
+    </a>
+    <a href="#" class="px-8 py-3 bg-gray-700 text-white font-semibold rounded-full shadow-md hover:bg-gray-600 transition-transform duration-300 hover:scale-105">
+      See Pricing
+    </a>
+  </div>
+  <!-- Background Circle -->
+  <div class="absolute w-[40rem] h-[40rem] bg-gradient-to-r from-lime-500 to-green-500 blur-3xl opacity-10 -z-10 right-1/2 translate-x-1/2 top-0"></div>
+</section>
+
+{% endblock %}

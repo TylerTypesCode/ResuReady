@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %} Home | ResuReady {% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section id="hero" class="relative min-h-screen flex flex-col justify-center items-center text-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-6 overflow-hidden">
+    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-lime-400 to-green-500 animate-fade-in-up">
+        ResuReady
+    </h1>
+    <h3 class="mt-4 text-xl md:text-2xl italic text-gray-300 max-w-xl animate-fade-in-up delay-200">
+        Your Job Hunt, Organized. Optimized. Ready.
+    </h3>
+    <div id="cta" class="mt-8 flex flex-wrap justify-center gap-4 animate-fade-in-up delay-300">
+        <a href="#" class="px-6 py-3 rounded-full bg-lime-500 text-gray-900 font-semibold shadow-md hover:bg-lime-400 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-lime-500/50">
+            Register
+        </a>
+        <a href="#" class="px-6 py-3 rounded-full bg-gray-700 text-white font-semibold shadow-md hover:bg-gray-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-500/50">
+            Login
+        </a>
+    </div>
+    <!-- Background blob -->
+    <div class="absolute w-[60rem] h-[60rem] bg-gradient-to-tr from-green-600 to-lime-500 rounded-full blur-3xl opacity-10 -z-10"></div>
+</section>
+
+<!-- Features Overview -->
+<section id="feature-overview" class="py-24 bg-gray-900">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 px-6">
+        
+        <div class="group bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02]">
+            <div class="text-lime-400 mb-6 text-5xl transition-all duration-500 group-hover:rotate-3">📄</div>
+            <h4 class="text-2xl font-bold text-lime-300 mb-4">Resume Management</h4>
+            <ul class="text-gray-400 space-y-2 text-left">
+                <li>✅ Create, Update, & Delete</li>
+                <li>✅ Import & Export</li>
+                <li>✅ Analysis & Optimizations</li>
+            </ul>
+        </div>
+
+        <div class="group bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02]">
+            <div class="text-lime-400 mb-6 text-5xl transition-all duration-500 group-hover:-rotate-3">📋</div>
+            <h4 class="text-2xl font-bold text-lime-300 mb-4">Job Application Board</h4>
+            <ul class="text-gray-400 space-y-2 text-left">
+                <li>✅ Centralized Application Tracker</li>
+                <li>✅ Live Alerts & Updates</li>
+                <li>✅ Stay Consistent & Get More Interviews</li>
+            </ul>
+        </div>
+
+        <div class="group bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02]">
+            <div class="text-lime-400 mb-6 text-5xl transition-all duration-500 group-hover:rotate-3">🤖</div>
+            <h4 class="text-2xl font-bold text-lime-300 mb-4">Mock Interviews</h4>
+            <ul class="text-gray-400 space-y-2 text-left">
+                <li>✅ Any Company, Any Position</li>
+                <li>✅ Instant Resume Practice</li>
+                <li>✅ Feedback & Scoring</li>
+            </ul>
+        </div>
+
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-24 bg-gray-800 text-center relative">
+    <div class="max-w-4xl mx-auto px-6 text-gray-400 text-lg animate-fade-in-up">
+        <p>
+            ResuReady came to life when our founder, <span class="text-lime-400 font-bold">Anthony Dinunzio</span>, realized there were no effective tools to manage a serious, organized job search. 
+            Since then, ResuReady has evolved into the ultimate job-seeking tool, streamlining your journey from applications to interviews—<span class="text-lime-400 font-bold">organized, optimized, ready!</span>
+        </p>
+    </div>
+    <!-- Subtle background accent -->
+    <div class="absolute w-[40rem] h-[40rem] bg-gradient-to-br from-lime-500 to-green-600 rounded-full blur-3xl opacity-10 -z-10 left-1/2 -translate-x-1/2 bottom-0"></div>
+</section>
+
+{% endblock %}
