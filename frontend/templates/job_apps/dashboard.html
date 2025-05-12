@@ -3,10 +3,40 @@
 {% block title %}Dashboard - Job Applications{% endblock %}
 
 {% block content %}
-<h2 class="text-2xl font-semibold text-gray-700 mb-6">Job Applications Dashboard</h2>
+
+<style>
+.editable-date:hover {
+    background-color: #f0fdf4;
+    cursor: pointer;
+}
+</style>
+
+<h2 class="text-2xl font-semibold text-lime-400 mb-6">Job Applications Dashboard</h2>
 
 <!-- Create New Job Application Button -->
 <a href="{{ url_for('job_apps.create') }}" class="inline-block px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 mb-4">Create New Application</a>
+
+{% if interview_soon %}
+<div class="mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
+    <strong>Upcoming Interviews:</strong>
+    <ul class="list-disc list-inside">
+        {% for job in interview_soon %}
+        <li>{{ job.company }} - {{ job.position }} on {{ job.interview_date.strftime('%Y-%m-%d') }} at {{ job.location }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if needs_follow_up %}
+<div class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700">
+    <strong>Needs Follow-Up:</strong>
+    <ul class="list-disc list-inside">
+        {% for job in needs_follow_up %}
+        <li>{{ job.company }} - Applied on {{ job.application_date.strftime('%Y-%m-%d') }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 
 <!-- Job Applications Table -->
 <div class="overflow-x-auto">
@@ -22,6 +52,8 @@
                 <th class="px-6 py-3 text-left">Interview Mode</th>
                 <th class="px-6 py-3 text-left">Salary Offer</th>
                 <th class="px-6 py-3 text-left">Job Type</th>
+                <th class="px-6 py-3 text-left">Notes</th>
+                <th class="px-6 py-3 text-left">Follow-Up Date</th>
                 <th class="px-6 py-3 text-left">Actions</th>
             </tr>
         </thead>
@@ -34,10 +66,16 @@
                         <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="location" contenteditable="true">{{ job.location }}</td>
                         <td class="px-6 py-4 text-sm text-gray-800">{{ job.application_date.strftime('%Y-%m-%d') }}</td>
                         <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="status" contenteditable="true">{{ job.status }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="interview_date" contenteditable="true">{{ job.interview_date.strftime('%Y-%m-%d') if job.interview_date else 'N/A' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 editable-date" data-column="interview_date">
+                            {{ job.interview_date.strftime('%Y-%m-%d') if job.interview_date else '' }}
+                        </td>
                         <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="interview_mode" contenteditable="true">{{ job.interview_mode }}</td>
                         <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="salary_offer" contenteditable="true">{{ job.salary_offer if job.salary_offer else 'N/A' }}</td>
                         <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="job_type" contenteditable="true">{{ job.job_type }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 editable" data-column="notes" contenteditable="true">{{ job.notes }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 editable-date" data-column="follow_up_date">
+                            {{ job.follow_up_date.strftime('%Y-%m-%d') if job.follow_up_date else '' }}
+                        </td>
                         <td class="px-6 py-4 text-sm text-gray-800">
                             <a href="{{ url_for('job_apps.edit', job_app_id=job.id) }}" class="text-blue-600 hover:underline">Edit</a> |
                             <form action="{{ url_for('job_apps.delete', job_app_id=job.id) }}" method="POST" class="inline">
@@ -57,41 +95,92 @@
 
 <!-- Inline Editing JavaScript -->
 <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+  if ("Notification" in window && needsFollowUp) {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+          sendReminderNotification();
+        }
+      });
+    } else {
+      sendReminderNotification();
+    }
+  }
+
+  function sendReminderNotification() {
+    new Notification("Job Follow-Up Reminder", {
+      body: "You have job applications that need a follow-up!",
+      icon: "/static/icons/reminder.png"
+    });
+  }
+});
+
+const needsFollowUp = `{{ (needs_follow_up|length > 0) | tojson }}`;
+const hasFollowUps = needsFollowUp.length > 0;
+
 document.addEventListener("DOMContentLoaded", () => {
     const table = document.querySelector("table");
 
-    table.addEventListener("blur", (event) => {
-        if (event.target.classList.contains("editable")) {
-            const row = event.target.closest("tr");
-            const jobId = row.dataset.jobId;
-            const column = event.target.dataset.column;
-            const newValue = event.target.textContent.trim();
+    table.addEventListener("click", (event) => {
+        const cell = event.target;
 
-            if (!newValue) return;
+        if (cell.classList.contains("editable-date")) {
+            const originalText = cell.textContent.trim();
+            const jobId = cell.closest("tr").dataset.jobId;
+            const column = cell.dataset.column;
 
-            fetch('{{ url_for("job_apps.update_job") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify({
-                    job_id: jobId,
-                    column: column,
-                    value: newValue
+            // Create date input
+            const input = document.createElement("input");
+            input.type = "date";
+            input.className = "text-sm px-1 py-1 border rounded";
+            input.value = originalText || "";
+
+            // Replace cell content with input
+            cell.textContent = '';
+            cell.appendChild(input);
+            input.focus();
+
+            // Handle blur or Enter key
+            const save = () => {
+                const newValue = input.value;
+
+                fetch('{{ url_for("job_apps.update_job") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({
+                        job_id: jobId,
+                        column: column,
+                        value: newValue
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log("Updated successfully");
-                } else {
-                    alert(data.message || "Failed to update.");
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        cell.textContent = newValue;
+                    } else {
+                        alert(data.message || "Failed to update.");
+                        cell.textContent = originalText;
+                    }
+                })
+                .catch(() => {
+                    cell.textContent = originalText;
+                });
+            };
+
+            input.addEventListener("blur", save);
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    input.blur();
                 }
-            })
-            .catch(error => console.error("Update error:", error));
+            });
         }
-    }, true);
+    });
 });
 </script>
 {% endblock %}

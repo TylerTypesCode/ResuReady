@@ -25,6 +25,8 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(256), nullable=False)
 
     resumes = db.relationship('Resume', backref='owner', lazy=True, cascade="all, delete-orphan")
+    job_applications = db.relationship('JobApp', backref='owner', lazy=True)
+    interviews = db.relationship('MockInterview', backref='user', lazy=True)
 
     created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)

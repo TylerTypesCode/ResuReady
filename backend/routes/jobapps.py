@@ -9,19 +9,27 @@ import uuid
 job_app_bp = Blueprint('job_apps', __name__, url_prefix='/job-applications')
 
 # 📄 Dashboard (List Job Applications)
-@job_app_bp.route('/job-applications/dashboard')
+@job_app_bp.route('/dashboard')
 def dashboard():
-    job_apps = JobApp.query.all()
 
-    status_choices = [e for e in JobApp.status.enums] if JobApp.status else []
-    interview_mode_choices = [e for e in JobApp.interview_mode.enums] if JobApp.interview_mode else []
-    job_type_choices = [e for e in JobApp.job_type.enums] if JobApp.job_type else []
+    job_apps = current_user.job_applications
 
-    return render_template('job_applications_dashboard.html',
-                           job_apps=job_apps,
-                           status_choices=status_choices,
-                           interview_mode_choices=interview_mode_choices,
-                           job_type_choices=job_type_choices)
+    now = datetime.utcnow()
+    interview_soon = []
+    needs_follow_up = []
+
+    for job in job_apps:
+        # Upcoming interview within 3 days
+        if job.interview_date and 0 <= (job.interview_date - now).days <= 3:
+            interview_soon.append(job)
+
+        # No follow-up recorded & older than 10 days
+        if job.follow_up_date is None and (now - job.application_date).days > 10:
+            needs_follow_up.append(job)
+
+
+    return render_template('job_apps/dashboard.html',
+                           job_apps=job_apps, interview_soon=interview_soon, needs_follow_up=needs_follow_up)
 
 # ➕ Create Job Application
 @job_app_bp.route('/create', methods=['GET', 'POST'])
@@ -132,7 +140,7 @@ def update_job():
     new_value = data['value']
 
     # Validate and process input data
-    if column not in ['company', 'position', 'location', 'status', 'salary_offer', 'job_type', 'interview_date', 'interview_mode']:
+    if column not in ['company', 'position', 'location', 'status', 'salary_offer', 'job_type', 'interview_date', 'interview_mode', 'notes', 'follow_up_date']:
         return jsonify({'success': False, 'message': 'Invalid column name'}), 400
 
     job = JobApp.query.get(job_id)
@@ -151,6 +159,12 @@ def update_job():
         # Convert salary_offer to a float
         try:
             new_value = float(new_value)
+        except ValueError:
+            return jsonify({'success': False, 'message': 'Invalid salary offer value'}), 400
+
+    elif column == 'follow_up_date' and new_value:
+        try:
+            new_value = datetime.strptime(new_value, '%Y-%m-%d').date()
         except ValueError:
             return jsonify({'success': False, 'message': 'Invalid salary offer value'}), 400
 
