@@ -17,11 +17,3 @@ def features():
 @main_bp.route('/pricing')
 def pricing():
     return render_template('main/pricing.html')
-
-@main_bp.route('/login')
-def login():
-    return render_template('auth/login.html')
-
-@main_bp.route('/register')
-def register():
-    return render_template('auth/register.html')
