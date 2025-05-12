@@ -1,5 +1,6 @@
 from .instances import login_manager, migrate, db
 from .routes.main import main_bp
+from .routes.auth import auth_bp
 from dotenv import load_dotenv
 from flask import Flask
 import os
@@ -17,6 +18,7 @@ def create_app():
     db.init_app(app)
 
     app.register_blueprint(main_bp)
+    app.register_blueprint(auth_bp, prefix='/auth')
 
     with app.app_context():
         db.create_all()

@@ -1,0 +1,5 @@
+2025-05-11 18:40:12,657 - flask_app - ERROR - Error in user registration: (builtins.TypeError) SQLite Date type only accepts Python date objects as input.
+[SQL: INSERT INTO user (id, first_name, last_name, address, city, phone_number, date_of_birth, email, password_hash, created_on, updated_on) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: [{'address': '2384 Millbourne Rd W Northwest', 'phone_number': '5879910701', 'password_hash': 'scrypt:32768:8:1$oYhxNtbbuH2659Zv$b674f1df9349a4b45c547a ... (87 characters truncated) ... d0ef26b294e3eba0ce3', 'date_of_birth': '2003-01-24', 'city': 'Edmonton', 'email': 'test@nomail.com', 'last_name': 'Dinunzio', 'first_name': 'Anthony'}]]
+2025-05-11 18:42:53,573 - flask_app - ERROR - Error in user registration: Could not build url for endpoint 'user.dashboard'. Did you mean 'auth.register' instead?
+2025-05-11 18:45:42,188 - flask_app - ERROR - Error during Login: Could not build url for endpoint 'user.dashbord'. Did you mean 'auth.register' instead?
