@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Subscription Cancelled | ResuReady{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center px-4">
+    <div class="max-w-md w-full text-center">
+        <div class="mb-8">
+            <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                <circle cx="24" cy="24" r="20" stroke-width="4"/>
+                <path stroke-linecap="round" stroke-width="4" d="M16 16l16 16m0-16L16 32"/>
+            </svg>
+        </div>
+        <h2 class="text-3xl font-bold text-gray-300 mb-4">Subscription Cancelled</h2>
+        <p class="text-gray-400 mb-8">You've cancelled the subscription process. No changes have been made to your account.</p>
+        <div class="space-x-4">
+            <a href="{{ url_for('subscription.upgrade') }}" 
+               class="inline-block bg-lime-500 text-gray-900 font-semibold px-6 py-3 rounded-lg hover:bg-lime-400 transition-colors">
+                Try Again
+            </a>
+            <a href="{{ url_for('user.dashboard') }}" 
+               class="inline-block bg-gray-700 text-white font-semibold px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors">
+                Return to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

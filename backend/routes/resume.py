@@ -20,6 +20,12 @@ def dashboard():
 @resume_bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
+    
+    # Check subscription limits
+    if not current_user.can_create_resume():
+        flash(f'You have reached the maximum number of resumes ({current_user.max_resumes}) for your subscription level.', 'error')
+        return redirect(url_for('subscription.upgrade'))
+
     if request.method == 'POST':
         try:
             # --- Personal Info ---

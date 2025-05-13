@@ -61,6 +61,19 @@ def mock_interview():
 # New route to serve the Mock Interview UI
 @interview_bp.route('/new_interview', methods=['GET'])
 def new_interview():
+     # Check subscription limits
+    if not current_user.can_start_interview():
+        return jsonify({
+            'error': 'You have no remaining interview credits. Please upgrade your subscription to continue.'
+        }), 403
+    
+    try:
+        # Deduct interview credit if not diamond tier
+        if current_user.subscription.tier_id != 'diamond':
+            current_user.subscription.remaining_interview_credits -= 1
+            db.session.commit()
+    except Exception as e:
+        print(f"ERROR: {e}")
     return render_template('interview/mock_interview.html')
 
 @interview_bp.route('/save', methods=['POST'])

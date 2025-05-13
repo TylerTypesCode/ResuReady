@@ -12,7 +12,9 @@
                 <a href="{{ url_for('interview.dashboard') }}" class="text-gray-300 hover:text-lime-400 px-3">Interview</a>
                 <!--<a href="#" class="text-gray-300 hover:text-lime-400 px-3">Applications</a>
                 <a href="#" class="text-gray-300 hover:text-lime-400 px-3">Interview</a>-->
-                <a href="{{ url_for('auth.logout') }}" class="text-gray-300 hover:text-lime-400 px-3">Logout</a>
+                <form action="{{ url_for('auth.logout') }}" method="POST" class="inline">
+                    <button type="submit" class="text-gray-300 hover:text-lime-400 px-3">Logout</button>
+                </form>
                 {% else %}
                 <a href="{{ url_for('main.about') }}" class="text-gray-300 hover:text-lime-400 px-3">About</a>
                 <a href="{{ url_for('main.features') }}" class="text-gray-300 hover:text-lime-400 px-3">Features</a>

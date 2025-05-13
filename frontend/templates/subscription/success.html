@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Subscription Success | ResuReady{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center px-4">
+    <div class="max-w-md w-full text-center">
+        <div class="mb-8">
+            <svg class="mx-auto h-16 w-16 text-lime-500" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                <circle class="opacity-25" cx="24" cy="24" r="20" stroke-width="4"/>
+                <path class="opacity-75" fill="currentColor" d="M14 24l8 8 16-16"/>
+            </svg>
+        </div>
+        <h2 class="text-3xl font-bold text-lime-400 mb-4">Subscription Successful!</h2>
+        <p class="text-gray-400 mb-8">Thank you for upgrading your ResuReady subscription. Your new features are now available.</p>
+        <a href="{{ url_for('user.dashboard') }}" 
+           class="inline-block bg-lime-500 text-gray-900 font-semibold px-6 py-3 rounded-lg hover:bg-lime-400 transition-colors">
+            Return to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -12,56 +12,43 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        address = request.form['address']
-        city = request.form['city']
-        phone_number = request.form['phone_number']
-        date_of_birth_str = request.form['date_of_birth']
-        email = request.form['email']
-        password = request.form['password']
-
-        # Check all fields
-        if not all([first_name, last_name, address, city, phone_number, date_of_birth_str, email, password]):
-            flash("Please fill in all fields to register a new account!", 'warning')
-            return redirect(url_for('auth.register'))
-
-        # Validate date
         try:
-            date_of_birth = datetime.strptime(date_of_birth_str, '%Y-%m-%d').date()
-        except ValueError:
-            flash("Invalid date format. Please use YYYY-MM-DD.", 'warning')
-            return redirect(url_for('auth.register'))
-
-        # Check if user exists
-        check_user = User.query.filter_by(email=email).first()
-        if check_user:
-            flash("A User with that email already exists, please login!", 'warning')
-            return redirect(url_for('auth.register'))
-
-        try:
+            # Start database transaction
+            db.session.begin_nested()
+            
+            # Create new user
             new_user = User(
-                first_name=first_name,
-                last_name=last_name,
-                address=address,
-                city=city,
-                phone_number=phone_number,
-                date_of_birth=date_of_birth,  # Now correct type
-                email=email,
-                password_hash=generate_password_hash(password)
+                first_name=request.form['first_name'],
+                last_name=request.form['last_name'],
+                address=request.form['address'],
+                city=request.form['city'],
+                phone_number=request.form['phone_number'],
+                date_of_birth=datetime.strptime(request.form['date_of_birth'], '%Y-%m-%d').date(),
+                email=request.form['email'],
+                password_hash=generate_password_hash(request.form['password'])
             )
             
+            # Add user to session and flush to get ID
             db.session.add(new_user)
+            db.session.flush()
+            
+            # Create free subscription
+            new_user.create_free_subscription()
+            
+            # If everything is okay, commit the transaction
             db.session.commit()
-            flash('Registration Successful!', 'success')
-            login(new_user)
+            
+            # Log the user in
+            login_user(new_user)
+            flash('Registration successful!', 'success')
             return redirect(url_for('user.dashboard'))
-
+            
         except Exception as e:
-            flash("Something went wrong while registering the account!", "error")
-            logger.error(f"Error in user registration: {e}")
+            db.session.rollback()
+            flash('An error occurred during registration.', 'error')
+            logger.error(f'Registration error: {e}')
             return redirect(url_for('main.home'))
-    
+            
     return render_template('auth/register.html')
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -92,7 +79,7 @@ def login():
     
     return render_template('auth/login.html')
 
-@auth_bp.route('/logout', methods=['POST'])
+@auth_bp.route('/logout', methods=['GET', 'POST'])
 def logout():
     logout_user()
     flash("Logout Successful", 'success')

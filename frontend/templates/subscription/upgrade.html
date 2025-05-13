@@ -1,31 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %} Pricing | ResuReady {% endblock %}
+{% block title %}Upgrade Subscription | ResuReady{% endblock %}
 
 {% block content %}
+<section class="text-center py-20 px-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl shadow-2xl mb-20 overflow-hidden">
+    <h1 class="text-5xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-lime-400 to-green-500 mb-6">
+        Upgrade Your ResuReady Experience
+    </h1>
+    <p class="max-w-3xl mx-auto text-gray-400 text-lg md:text-xl">
+        Choose the plan that best fits your job search journey.
+    </p>
 
-<!-- Pricing Header -->
-<section class="text-center py-24 relative">
-  <h1 class="text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-lime-400 to-green-500 mb-4 animate-fade-in-up">
-    Simple Pricing, For Every Job Seeker
-  </h1>
-  <p class="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl animate-fade-in-up delay-100">
-    Start free. Upgrade anytime. Pay monthly or save with annual plans.
-  </p>
-
-  <!-- Background Accent -->
-  <div class="absolute w-[50rem] h-[50rem] bg-gradient-to-br from-lime-500 to-green-600 rounded-full blur-3xl opacity-10 -z-10 left-1/2 -translate-x-1/2 top-10"></div>
-</section>
-
-<!-- Toggle Switch -->
-    <div class="mt-10 flex justify-center items-center gap-4 animate-fade-in-up delay-200">
-        <span class="text-gray-400 text-sm font-medium">Monthly</span>
+    <!-- Billing Toggle -->
+    <div class="mt-12 flex justify-center items-center gap-4">
+        <span class="text-gray-400">Monthly</span>
         <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" value="" class="sr-only peer" id="billingToggle">
-        <div class="w-16 h-8 bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-lime-500 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-lime-500"></div>
+            <input type="checkbox" id="billingToggle" class="sr-only peer">
+            <div class="w-16 h-8 bg-gray-700 rounded-full peer peer-checked:bg-lime-500 after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:after:translate-x-8"></div>
         </label>
-        <span class="text-gray-400 text-sm font-medium">Annual</span>
+        <span class="text-gray-400">Annual <span class="text-lime-400">(Save 20%)</span></span>
     </div>
+</section>
 
 <!-- Pricing Cards -->
 <section class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 mb-24">
@@ -101,16 +96,6 @@
     </div>
 </section>
 
-<!-- Optional CTA -->
-<section class="text-center py-24">
-  <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
-    Start for free. Upgrade when you're ready.
-  </h3>
-  <a href="#" class="px-8 py-3 rounded-full bg-lime-500 text-gray-900 font-semibold shadow-md hover:bg-lime-400 transition hover:scale-105">
-    Create Your Free Account
-  </a>
-</section>
-
 <script>
 let billingPeriod = 'monthly';
 
@@ -157,5 +142,4 @@ async function handleSubscription(tier, billingPeriod) {
     }
 }
 </script>
-
 {% endblock %}
