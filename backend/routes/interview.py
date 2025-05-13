@@ -101,7 +101,7 @@ def save_interview():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@interview_bp.route('/dashboard')
+@interview_bp.route('/')
 @login_required
 def dashboard():
     interviews = Interview.query.filter_by(user_id=current_user.id)\
