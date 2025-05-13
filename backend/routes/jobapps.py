@@ -9,7 +9,7 @@ import uuid
 job_app_bp = Blueprint('job_apps', __name__, url_prefix='/job-applications')
 
 # 📄 Dashboard (List Job Applications)
-@job_app_bp.route('/dashboard')
+@job_app_bp.route('/')
 def dashboard():
 
     job_apps = current_user.job_applications

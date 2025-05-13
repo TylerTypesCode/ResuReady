@@ -8,6 +8,7 @@
                 {% if current_user.is_authenticated %}
                 <a href="{{ url_for('user.dashboard') }}" class="text-gray-300 hover:text-lime-400 px-3">Dashboard</a>
                 <a href="{{ url_for('resumes.dashboard') }}" class="text-gray-300 hover:text-lime-400 px-3">Resumes</a>
+                <a href="{{ url_for('job_apps.dashboard') }}" class="text-gray-300 hover:text-lime-400 px-3">Applications</a>
                 <a href="{{ url_for('interview.dashboard') }}" class="text-gray-300 hover:text-lime-400 px-3">Interview</a>
                 <!--<a href="#" class="text-gray-300 hover:text-lime-400 px-3">Applications</a>
                 <a href="#" class="text-gray-300 hover:text-lime-400 px-3">Interview</a>-->
