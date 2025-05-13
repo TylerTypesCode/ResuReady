@@ -16,10 +16,7 @@ subscription_bp = Blueprint('subscription', __name__, url_prefix='/subscription'
 
 def init_stripe(app):
     """Initialize Stripe configuration"""
-    app.config['STRIPE_SECRET_KEY'] = os.getenv('STRIPE_SECRET_KEY')
-    app.config['STRIPE_PUBLISHABLE_KEY'] = os.getenv('STRIPE_PUBLISHABLE_KEY')
-    app.config['STRIPE_WEBHOOK_SECRET'] = os.getenv('STRIPE_WEBHOOK_SECRET')
-    stripe.api_key = "sk_test_51RO8xQEHTsLg21IfNGNbfoD6RMCSTnDzDfM2Pru4Gkt96N9sNXWdnTfPn5Olhqn1Peqq0S91dWaL01H6jjPtl6fj00HQk9qp3a"
+    stripe.api_key = app.config['STRIP_SECRET_KEY']
 
 TIER_DATA = {
     'free': {
