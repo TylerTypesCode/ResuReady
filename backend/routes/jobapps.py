@@ -35,6 +35,12 @@ def dashboard():
 @job_app_bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
+
+    # Check subscription limits
+    if not current_user.can_create_application():
+        flash(f'You have reached the maximum number of job applications ({current_user.max_applications}) for your subscription level.', 'error')
+        return redirect(url_for('subscription.upgrade'))
+
     if request.method == 'POST':
         try:
             # --- Job Application Details ---

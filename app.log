@@ -1,0 +1,9 @@
+2025-05-12 22:23:31,688 - flask_app - ERROR - Error in user registration: (sqlite3.IntegrityError) UNIQUE constraint failed: user.phone_number
+[SQL: INSERT INTO user (id, first_name, last_name, address, city, phone_number, date_of_birth, email, password_hash, created_on, updated_on) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('7b7fd10f-fe30-4780-900a-2e7240f146fa', 'Anthony', 'Dinunzio', '2384 Millbourne Rd W Northwest', 'Edmonton', '5879910701', '2003-01-24', 'anthonydinunziopr@gmail.com', 'scrypt:32768:8:1$FWY555BzvTjfxcMW$1756053445082106e761e545bddb2a7066cc629a4502079452e71f6321e4f61c35fafa89b95801a1ebf22250d78fd9ca8335204f7460db706a66fbcd215400e2', '2025-05-13 04:23:31.684870', '2025-05-13 04:23:31.684870')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-05-12 22:23:55,380 - flask_app - ERROR - Error in user registration: login() takes 0 positional arguments but 1 was given
+2025-05-12 22:28:42,820 - flask_app - ERROR - Error in user registration: (sqlite3.IntegrityError) NOT NULL constraint failed: user_subscriptions.user_id
+[SQL: INSERT INTO user_subscriptions (id, user_id, tier_id, stripe_subscription_id, stripe_customer_id, start_date, end_date, status, remaining_interview_credits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('012912e8-93a8-4e91-9bde-b9b6da82d01b', None, 'free', None, None, '2025-05-13 04:28:42.819897', None, 'active', 3)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
